@@ -8,7 +8,7 @@ from src.Models.Tables import Tables
 
 class Orders(Base):
     id = PrimaryKeyField()
-    count_clients = IntegerField()
+    count_cliens = IntegerField()
     table_id = ForeignKeyField(Tables)
     drink_id = ForeignKeyField(Drinks)
     food_id = ForeignKeyField(Foods)

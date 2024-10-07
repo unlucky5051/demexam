@@ -4,6 +4,6 @@ from src.Models.Users import Users
 class Shifts(Base):
     id = PrimaryKeyField()
     date = DateTimeField()
-    cook = ForeignKeyField(Users)
-    oficiant_1 = ForeignKeyField(Users)
-    oficiant_2 = ForeignKeyField(Users)
+    cook_id = ForeignKeyField(Users)
+    oficiant_id = ForeignKeyField(Users)
+    oficiant_2_id = ForeignKeyField(Users)

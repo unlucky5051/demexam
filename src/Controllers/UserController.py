@@ -22,10 +22,4 @@ class UserController:
 
 
 if __name__ == "__main__":
-    users = UserController()
-    print(users.log_in('admin_Ekaterina','11111'))
-    for row in users.get():
-        print(row.login, row.status)
-    users.update_status(9)
-    for row in users.get():
-        print(row.login, row.status)
+    print(UserController.show('admin_Ekaterina').role.id)

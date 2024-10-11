@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from src.Controllers.UserController import *
+from src.Views.adminwindow import Ui_adminWindow
 
 class Ui_Login(object):
     def setupUi(self, Login):
@@ -26,6 +27,9 @@ class Ui_Login(object):
         self.password = QtWidgets.QTextEdit(self.centralwidget)
         self.password.setGeometry(QtCore.QRect(500, 140, 291, 41))
         self.password.setObjectName("password")
+        self.loginbutton = QtWidgets.QPushButton(self.centralwidget)
+        self.loginbutton.setGeometry(QtCore.QRect(290, 310, 251, 101))
+        self.loginbutton.setObjectName("loginbutton")
         Login.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Login)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 879, 23))
@@ -60,8 +64,38 @@ class Ui_Login(object):
 "</style></head><body style=\" font-family:\'Open Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.password.setPlaceholderText(_translate("Login", "Введите свой пароль "))
+        self.loginbutton.setText(_translate("Login", "Войти"))
+
+    def test_button(self):
+        log = self.login.toPlainText()
+        passwd = self.password.toPlainText()
+        user = UserController()
+        result = user.log_in(log,passwd)
+        print(result)
+
+    def pressButton(self):
+        self.loginbutton.clicked.connect(self.open_panel)
+
+    def open_panel(self):
+        log = self.login.toPlainText()
+        passwd = self.password.toPlainText()
+        users = UserController()
+        if users.log_in(log,passwd):
+            if UserController.show(log).role_id.id == 1:
+                print("Admin")
+            elif UserController.show(log).role_id.id == 2:
+                print("Cook")
+            else:
+                print("Oficiant")
+        else:
+            print("Пароль или логин введены не верно")
 
 
+    def panel_admin(self):
+        adminWindow = QtWidgets.QMainWindow()
+        ui = Ui_adminWindow()
+        ui.setupUi(adminWindow)
+        adminWindow.show()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -69,4 +103,5 @@ if __name__ == "__main__":
     ui = Ui_Login()
     ui.setupUi(Login)
     Login.show()
+    ui.pressButton()
     sys.exit(app.exec_())

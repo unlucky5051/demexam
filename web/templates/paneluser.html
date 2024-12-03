@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Панель пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .order-form {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .order-item {
+            margin-bottom: 10px;
+        }
+        .order-item input {
+            padding: 5px;
+            width: calc(100% - 80px);
+            margin-right: 10px;
+        }
+        .add-item {
+            padding: 5px 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .add-item:hover {
+            background-color: #4cae4c;
+        }
+        .submit-order {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #0275d8;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-order:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Создание заказа</h1>
+
+<div class="order-form">
+    <h2>Добавьте блюда в заказ</h2>
+    <div id="orderItems">
+        <div class="order-item">
+            <input type="text" placeholder="Название блюда" required>
+        </div>
+    </div>
+    <button class="add-item" onclick="addOrderItem()">Добавить блюдо</button>
+    <button class="submit-order" onclick="submitOrder()">Создать заказ</button>
+</div>
+
+<script>
+    // Функция для добавления нового поля для ввода блюда
+    function addOrderItem() {
+        const orderItemsDiv = document.getElementById('orderItems');
+        const newItemDiv = document.createElement('div');
+        newItemDiv.classList.add('order-item');
+        newItemDiv.innerHTML =
+            <input type="text" placeholder="Название блюда" required>
+        ;
+        orderItemsDiv.appendChild(newItemDiv);
+    }
+
+    // Функция для отправки заказа
+    function submitOrder() {
+        const orderItemsDiv = document.getElementById('orderItems');
+        const items = Array.from(orderItemsDiv.getElementsByTagName('input')).map(input => input.value).filter(value => value);
+
+        if (items.length === 0) {
+            alert("Пожалуйста, добавьте хотя бы одно блюдо в заказ.");
+            return;
+        }
+
+        // Здесь вы можете отправить данные на сервер или выполнить другие действия
+        alert(Ваш заказ создан:\n${items.join(', ')});
+
+        // Очищаем поля после создания заказа
+        orderItemsDiv.innerHTML =
+            <div class="order-item">
+                <input type="text" placeholder="Название блюда" required>
+            </div>
+        ;
+    }
+</script>
+
+</body>
+</html>

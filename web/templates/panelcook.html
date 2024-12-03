@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Панель повара</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #5cb85c;
+            color: white;
+        }
+        h1 {
+            color: #333;
+        }
+        .logout {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #d9534f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .logout:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Панель повара</h1>
+<p>Добро пожаловать на панель повара!</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Заказа</th>
+            <th>Имя клиента</th>
+            <th>Заказ</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody id="ordersTable">
+        <!-- Заказы будут добавлены сюда с помощью JavaScript -->
+    </tbody>
+</table>
+
+<a href="login.html" class="logout">Выйти</a>
+
+<script>
+    // Пример данных заказов
+    const orders = [
+        { id: 1, customerName: 'Иван Иванов', items: 'Пицца, Салат', status: 'В ожидании' },
+        { id: 2, customerName: 'Мария Петрова', items: 'Суп, Хлеб', status: 'Готовится' },
+        { id: 3, customerName: 'Сергей Сидоров', items: 'Бургер, Картошка фри', status: 'Завершен' },
+    ];
+
+    // Функция для отображения заказов на странице
+    function displayOrders() {
+        const ordersTable = document.getElementById('ordersTable');
+
+        // Очищаем таблицу перед добавлением новых данных
+        ordersTable.innerHTML = '';
+
+        // Добавляем каждую запись заказа в таблицу
+        orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML =
+                <td>${order.id}</td>
+                <td>${order.customerName}</td>
+                <td>${order.items}</td>
+                <td>${order.status}</td>
+            ;
+            ordersTable.appendChild(row);
+        });
+    }
+
+    // Вызываем функцию для отображения заказов при загрузке страницы
+    displayOrders();
+</script>
+
+</body>
+</html>

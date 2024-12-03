@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Вход</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 105%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Вход в систему</h2>
+    <input type="text" id="username" placeholder="Логин" required>
+    <input type="password" id="password" placeholder="Пароль" required>
+    <button onclick="login()">Войти</button>
+</div>
+
+<script>
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Пример данных пользователей (в реальной ситуации используйте серверную проверку)
+        const users = [
+            { username: 'admin', password: 'admin123', role: 'admin' },
+            { username: 'cook', password: 'cook123', role: 'cook' },
+            { username: 'user', password: 'user123', role: 'user' }
+        ];
+
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            switch (user.role) {
+                case 'admin':
+                    window.location.href = 'paneladmin';
+                    break;
+                case 'cook':
+                    window.location.href = 'panelcook'; // Страница повара
+                    break;
+                case 'user':
+                    window.location.href = 'paneluser'; // Страница пользователя
+                    break;
+                default:
+                    alert('Неизвестная роль.');
+                    break;
+            }
+        } else {
+            alert('Неверный логин или пароль.');
+        }
+    }
+</script>
+
+</body>
+</html>

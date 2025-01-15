@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" style="background-color: #f4f4f4;">
+    <!-- Пол -->
+    <rect x="0" y="400" width="800" height="200" fill="#d3b88c" />
+
+    <!-- Стены -->
+    <rect x="0" y="0" width="800" height="400" fill="#e0e0e0" />
+
+    <!-- Окно -->
+    <rect x="300" y="50" width="200" height="150" fill="#aad4e5" />
+    <line x1="300" y1="125" x2="500" y2="125" stroke="#000" stroke-width="2" />
+    <line x1="400" y1="50" x2="400" y2="200" stroke="#000" stroke-width="2" />
+
+    <!-- Столы -->
+    <rect x="100" y="300" width="100" height="100" fill="#8b5d33" />
+    <rect x="600" y="300" width="100" height="100" fill="#8b5d33" />
+
+    <!-- Стулья -->
+    <rect x="80" y="250" width="20" height="50" fill="#654321" />
+    <rect x="180" y="250" width="20" height="50" fill="#654321" />
+    <rect x="580" y="250" width="20" height="50" fill="#654321" />
+    <rect x="700" y="250" width="20" height="50" fill="#654321" />
+
+    <!-- Растения -->
+    <circle cx="50" cy="350" r="30" fill="#228B22" />
+    <circle cx="750" cy="350" r="30" fill="#228B22" />
+
+    <!-- Декоративные элементы -->
+    <rect x="350" y="300" width="100" height="20" fill="#8b5d33" />
+    <rect x="375" y="280" width="50" height="20" fill="#8b5d33" />
+    <circle cx="400" cy="260" r="10" fill="#ffcc00" />
+
+    <!-- Текст -->
+    <text x="50" y="550" font-family="Arial" font-size="24" fill="#333">Добро пожаловать в кафе "Журавль"!</text>
+</svg>

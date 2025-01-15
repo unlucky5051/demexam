@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            padding-top: 20px;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            font-size: 1.2rem;
+        }
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #764ba2;
+        }
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        .list-group-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            box-shadow: none;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('home') }}"><i class="fas fa-utensils"></i> Кафе "Журавль"</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4"><i class="fas fa-tachometer-alt"></i> Панель администратора</h1>
+
+        <!-- Форма для добавления сотрудника -->
+        <div class="card p-3 mb-4">
+            <div class="card-header">
+                <h2><i class="fas fa-user-plus"></i> Добавить сотрудника</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_employee') }}">
+                    <div class="form-group mb-3">
+                        <label for="login">Логин</label>
+                        <input type="text" class="form-control" id="login" name="login" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">Пароль</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="role_id">Роль</label>
+                        <select class="form-control" id="role_id" name="role_id" required>
+                            <option value="1">Администратор</option>
+                            <option value="2">Повар</option>
+                            <option value="3">Официант</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Добавить</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Форма для добавления смены -->
+        <div class="card p-3 mb-4">
+            <div class="card-header">
+                <h2><i class="fas fa-calendar-plus"></i> Добавить смену</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_shift') }}">
+                    <div class="form-group mb-3">
+                        <label for="datetime">Дата и время</label>
+                        <input type="datetime-local" class="form-control" id="datetime" name="datetime" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="cook">Повар</label>
+                        <select class="form-control" id="cook" name="cook" required>
+                            {% for user in users if user.role_id.role == 'cook' %}
+                            <option value="{{ user.id }}">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="oficiant_1">Официант 1</label>
+                        <select class="form-control" id="oficiant_1" name="oficiant_1" required>
+                            {% for user in users if user.role_id.role == 'waiter' %}
+                            <option value="{{ user.id }}">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="oficiant_2">Официант 2</label>
+                        <select class="form-control" id="oficiant_2" name="oficiant_2" required>
+                            {% for user in users if user.role_id.role == 'waiter' %}
+                            <option value="{{ user.id }}">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Добавить смену</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Список сотрудников с возможностью увольнения -->
+        <div class="card p-3 mb-4">
+            <div class="card-header">
+                <h2><i class="fas fa-users"></i> Сотрудники</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for user in users %}
+                    <li class="list-group-item">
+                        {{ user.name }} ({{ user.role_id.role }})
+                        <form method="POST" action="{{ url_for('fire_employee', user_id=user.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i> Уволить</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Список предыдущих смен -->
+        <div class="card p-3">
+            <div class="card-header">
+                <h2><i class="fas fa-history"></i> Предыдущие смены</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for shift in shifts %}
+                    <li class="list-group-item">
+                        <strong>Дата и время:</strong> {{ shift.datetime }}<br>
+                        <strong>Повар:</strong> {{ shift.cook_id.name }}<br>
+                        <strong>Официант 1:</strong> {{ shift.oficiant_1_id.name }}<br>
+                        <strong>Официант 2:</strong> {{ shift.oficiant_2_id.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

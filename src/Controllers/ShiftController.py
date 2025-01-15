@@ -23,4 +23,4 @@ if __name__ == "__main__":
     # print("--------------------------")
     sh.add('2024-10-16 10:00:00', 'cook_Alexandr', 'waiter_Sergey', 'waiter_Ilya')
     for row in sh.get():
-        print(row.id, row.cook_id.login, row.oficiant_1_id.login, row.oficiant_2_id.login)
+        print(row.id, row.cook_id.login, row.oficiant_1_id .login, row.oficiant_2_id.login)

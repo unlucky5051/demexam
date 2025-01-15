@@ -7,3 +7,6 @@ class Users(Base):
     name = CharField()
     role_id = ForeignKeyField(Roles)
     status = BooleanField(default=1)
+
+    class Meta:
+        database = mysql_db

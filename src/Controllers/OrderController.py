@@ -6,9 +6,16 @@ class OrderController:
     def get(self):
         return Orders.select().execute()
 
-    def add(self,input_count_cliens,input_table_id,input_drink_id,input_food_id,input_shift_id,input_status_id):
-        Orders.create(count_cliens = input_count_cliens, table_id = input_table_id, drink_id = input_drink_id, food_id = input_food_id,shift_id = input_shift_id, status_id = input_status_id)
 
+    def add(self, count_cliens, table_id, drink_id, food_id, shift_id, status_id):
+        Orders.create(
+            count_cliens=count_cliens,
+            table_id=table_id,
+            drink_id=drink_id,
+            food_id=food_id,
+            shift_id=shift_id,
+            status_id=status_id
+            )
     def update_order_pay(self,id_order):
         Orders.update({Orders.status_id : False}).where(Orders.id == id_order).execute()
 
@@ -17,6 +24,14 @@ class OrderController:
 
     def update_order_ready(self,id_order):
         Orders.update({Orders.status_id : False}).where(Orders.id == id_order)
+
+    def delete_order(self, order_id):
+        order = Orders.get_or_none(Orders.id == order_id)
+        if order:
+            order.delete_instance()
+            return True
+        return False
+
 if __name__ == "__main__":
     sh = OrderController()
     for row in sh.get():

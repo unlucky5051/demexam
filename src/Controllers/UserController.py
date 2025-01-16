@@ -1,11 +1,12 @@
 from src.Models.Users import *
 
 class UserController:
-    def log_in(self,input_login,input_password):
-        if Users.get_or_none(Users.login == input_login, Users.password == input_password):
-            return True
+    def log_in(self, input_login, input_password):
+        user = Users.get_or_none(Users.login == input_login, Users.password == input_password)
+        if user:
+            return user  # Возвращаем объект пользователя
         else:
-            return False
+            return None  # Если пользователь не найден
     def get(self):
         return Users.select().execute()
 

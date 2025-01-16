@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Панель пользователя</title>
+    <title>Панель официанта</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
             background: rgba(255, 255, 255, 0.1) !important;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px 30px;
+            padding: 20px 30px; /* Увеличиваем отступы внутри header */
         }
         .navbar-brand {
             font-size: 1.5rem;
@@ -28,18 +28,18 @@
         }
         .navbar-brand i {
             margin-right: 10px;
-            font-size: 1.8rem;
+            font-size: 1.8rem; /* Увеличиваем размер иконки */
         }
         .nav-link {
             color: #fff !important;
             font-weight: 500;
             display: flex;
             align-items: center;
-            font-size: 1.1rem;
+            font-size: 1.1rem; /* Увеличиваем размер текста */
         }
         .nav-link i {
-            margin-right: 8px;
-            font-size: 1.2rem;
+            margin-right: 8px; /* Увеличиваем отступ для иконки */
+            font-size: 1.2rem; /* Увеличиваем размер иконки */
         }
         .card {
             background: rgba(255, 255, 255, 0.1);
@@ -69,19 +69,6 @@
         .btn-danger:hover {
             background: linear-gradient(135deg, #c82333, #dc3545);
         }
-        .form-control {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: #fff;
-            border-radius: 10px;
-        }
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: none;
-        }
         .order-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -104,6 +91,31 @@
             font-size: 1rem;
             color: #ddd;
         }
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: none;
+        }
+        .status-select {
+            width: 200px;
+            margin-right: 10px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-buttons .btn {
+            flex: 1;
+        }
         .status-icon {
             margin-right: 5px;
         }
@@ -125,7 +137,7 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4"><i class="fas fa-user"></i> Панель пользователя</h1>
+        <h1 class="text-center mb-4"><i class="fas fa-user"></i> Панель официанта</h1>
 
         <!-- Секция для создания нового заказа -->
         <div class="row mb-4">
@@ -164,7 +176,7 @@
         <!-- Секция для просмотра заказов -->
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-list"></i> Мои заказы</h2>
+                <h2><i class="fas fa-list"></i> Заказы</h2>
                 {% for order in orders %}
                 <div class="order-card">
                     <h5>Заказ #{{ order.id }}</h5>
@@ -181,6 +193,26 @@
                             {% endif %}"></i>
                         {{ order.status_id.name }}
                     </p>
+                    <div class="action-buttons">
+                        <form method="POST" action="{{ url_for('update_order_status_waiter', order_id=order.id) }}" style="display:inline;">
+                            <div class="form-group mb-3">
+                                <label for="status">Изменить статус</label>
+                                <select class="form-control status-select" id="status" name="status" required>
+                                    {% for status in statuses %}
+                                    <option value="{{ status.name }}">{{ status.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-sync"></i> Обновить статус
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ url_for('delete_order', order_id=order.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -217,6 +249,41 @@
             .catch(error => {
                 console.error('Ошибка:', error);
             });
+        });
+
+        // Обработка форм обновления статуса и удаления заказа
+        document.querySelectorAll('form').forEach(form => {
+            if (form.id !== 'create-order-form') {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Отменяем стандартное поведение формы
+
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Действие выполнено успешно!');
+                            location.reload(); // Перезагрузить страницу
+                        } else {
+                            alert('Ошибка: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                    });
+                });
+            }
         });
     </script>
 

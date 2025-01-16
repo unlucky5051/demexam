@@ -1,9 +1,11 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from src.Controllers.ShiftController import *
 from src.Controllers.UserController import *
 from src.Controllers.OrderController import *
 from src.Models.Users import Users  # Импортируем модель Users
 from src.Models.Shifts import Shifts  # Импортируем модель Shifts
+from src.Models.Orders import Orders  # Импортируем модель Orders
+from src.Models.Statuces import Statuces  # Импортируем модель Statuces
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 
 app = Flask(__name__)
@@ -126,6 +128,28 @@ def panelcook():
         return redirect(url_for('home'))
     orders = Orders.select()
     return render_template('cookpanel.html', orders=orders)
+
+@app.route('/update_order_status/<int:order_id>', methods=['POST'])
+@login_required
+def update_order_status(order_id):
+    if current_user.role_id != 2:  # Только повар может изменять статус заказа
+        return jsonify({'success': False, 'error': 'Доступ запрещен'})
+
+    data = request.get_json()
+    new_status = data.get('status')
+
+    # Логика обновления статуса заказа
+    order = Orders.get_or_none(Orders.id == order_id)
+    if order:
+        status = Statuces.get(Statuces.name == new_status)
+        if status:
+            order.status_id = status
+            order.save()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Неверный статус'})
+    else:
+        return jsonify({'success': False, 'error': 'Заказ не найден'})
 
 @app.route('/paneluser')
 @login_required
